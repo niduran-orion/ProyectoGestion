@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detalle del Ticket</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">Gestión de Solicitudes</div>
+    <nav>
+      <a href="/listaTickets">Bandeja Entrada</a>
+      <a href="/completedTickets">Solicitudes Finalizadas</a>
+      <a href="/nuevoTicket">Nueva Solicitud</a>
+      <a href="/logout">Cerrar sesión</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <div class="content-header">
+      <h2>Detalle del Ticket</h2>
+    </div>
+
+    <div class="ticket-form" style="max-width: 600px;">
+      <p><strong>ID:</strong> {{ ticket["id"] }}</p>
+      <p><strong>Tipo de Solicitud:</strong> {{ ticket["tipo_solicitud"] }}</p>
+      <p><strong>Proyecto:</strong> {{ ticket["proyecto"] }}</p>
+      <p><strong>Área:</strong> {{ ticket["area"] }}</p>
+      <p><strong>División:</strong> {{ ticket["division"] }}</p>
+      <p><strong>Nombre del Solicitante:</strong> {{ ticket["nombre_solicitante"] }}</p>
+      <p><strong>Comprador Asignado:</strong> {{ ticket["comprador_asignado"] }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ ticket["fecha_creacion"] }}</p>
+      <p><strong>Urgencia:</strong>
+        <span class="urgency {{ ticket['urgencia'].lower() }}">{{ ticket["urgencia"] }}</span>
+      </p>
+      <p><strong>Comentario Inicial:</strong></p>
+      <div style="background-color: #382e4d; padding: 10px; border-radius: 8px; color: white;">
+        {{ ticket["comentario_inicial"] }}
+      </div>
+    </div>
+
+    {% set tipos = {"cotizaciones": "Cotizaciones", "ordenes_compra": "Órdenes de Compra", "otros_archivos": "Otros Adjuntos"} %}
+
+    {% for tipo, titulo in tipos.items() %}
+      <div class="ticket-form" style="margin-top: 30px; max-width: 600px;">
+        <h3 style="margin-bottom: 10px;">{{ titulo }}</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          {% set hay_archivos = false %}
+          {% for archivo in archivos %}
+            {% if archivo.tipo_archivo == tipo %}
+              {% set hay_archivos = true %}
+              <li style="margin-bottom: 10px;">
+                <a href="{{ supabase_url }}/storage/v1/object/public/archivos/{{ archivo.url }}" target="_blank" class="new-ticket">
+                  Descargar {{ archivo.url.split('/')[-1] }}
+                </a>
+              </li>
+           {% endif %}
+          {% endfor %}
+          {% if not hay_archivos %}
+           <li style="color: #aaa;">Sin archivos cargados.</li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endfor %}
+
+
+    <form method="POST" action="/completarTicket/{{ ticket['id'] }}" style="margin-top: 30px;">
+      <button type="submit" class="new-ticket">Marcar como Completado</button>
+    </form>
+  </div>
+</body>
+</html>

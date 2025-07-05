@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Solicitudes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h1 class="logo">Gestión de Solicitudes</h1>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Tickets</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <header>
+      <div class="search-container">
+        <input type="text" placeholder="Search" />
+        <div class="avatar"></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="content-header">
+        <h2>Tickets</h2>
+        <button class="new-ticket">New Ticket</button>
+      </div>
+      <input class="ticket-search" type="text" placeholder="Search tickets" />
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Request Type</th>
+            <th>Requester Name</th>
+            <th>Assigned Buyer</th>
+            <th>Creation Date</th>
+            <th>Urgency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#12345</td>
+            <td><span class="status open">Open</span></td>
+            <td>Hardware</td>
+            <td>Sophia Clark</td>
+            <td>Ethan Bennett</td>
+            <td>2024-01-15</td>
+            <td><span class="urgency high">High</span></td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

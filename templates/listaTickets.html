@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Solicitudes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">Gestión de Solicitudes</div>
+    <nav>
+      <a href="/listaTickets">Bandeja Entrada</a>
+      <a href="/completedTickets">Solicitudes Finalizadas</a>
+      <a href="/nuevoTicket">Nueva Solicitud</a>
+      <a href="/logout">Cerrar sesión</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <div class="content-header">
+      <h2>Bandeja de Entrada</h2>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filters" style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <form method="get" action="/listaTickets" style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" name="ticket_id" placeholder="Buscar por ID" hx-get="/completedTickets" hx-target="#ticket-table" hx-include="[name=ticket_id]" class="ticket-search" />
+        <select name="proyecto" class="ticket-search">
+          <option value="">Proyecto</option>
+          {% for p in proyectos %}
+            <option value="{{ p }}" {% if request.args.get('proyecto') == p %}selected{% endif %}>{{ p }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="area" class="ticket-search">
+          <option value="">Área</option>
+          {% for a in areas %}
+            <option value="{{ a }}" {% if request.args.get('area') == a %}selected{% endif %}>{{ a }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="division" class="ticket-search">
+          <option value="">División</option>
+          {% for d in divisiones %}
+            <option value="{{ d }}" {% if request.args.get('division') == d %}selected{% endif %}>{{ d }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="urgencia" class="ticket-search">
+          <option value="">Urgencia</option>
+          {% for u in urgencias %}
+            <option value="{{ u }}" {% if request.args.get('urgencia') == u %}selected{% endif %}>{{ u }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit" class="new-ticket">Filtrar</button>
+      </form>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div id="ticket-table">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Proyecto</th>
+            <th>Tipo</th>
+            <th>Área</th>
+            <th>División</th>
+            <th>Urgencia</th>
+            <th>Solicitante</th>
+            <th>Fecha</th>
+            <th>Detalle</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ticket in tickets %}
+          <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.proyecto }}</td>
+            <td>{{ ticket.tipo_solicitud }}</td>
+            <td>{{ ticket.area }}</td>
+            <td>{{ ticket.division }}</td>
+            <td>
+              <span class="urgency {{ ticket.urgencia.lower() }}">
+                {{ ticket.urgencia }}
+              </span>
+            </td>
+            <td>{{ ticket.nombre_solicitante }}</td>
+            <td>{{ ticket.fecha_creacion }}</td>
+            <td>
+              <a href="/detalleTicket/{{ ticket.id }}" class="new-ticket">
+                Ver Detalle
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<table>
+  <thead>
+    <tr>
+      <th>Tipo de Solicitud</th>
+      <th>Solicitante</th>
+      <th>Comprador</th>
+      <th>Fecha</th>
+      <th>Urgencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ticket in tickets %}
+      <tr>
+        <td>{{ ticket.tipo_solicitud }}</td>
+        <td>{{ ticket.nombre_solicitante }}</td>
+        <td>{{ ticket.comprador_asignado }}</td>
+        <td>{{ ticket.fecha_creacion[:10] }}</td>
+        <td>
+          <span class="urgency {{ ticket.urgencia }}">
+            {{ ticket.urgencia.capitalize() }}
+          </span>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

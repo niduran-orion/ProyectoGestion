@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Nuevo Ticket</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Gestión de Solicitudes</div>
+        <nav>
+            <a href="/listaTickets">Bandeja Entrada</a>
+            <a href="/completedTickets">Solicitudes Finalizadas</a>
+            <a href="/nuevoTicket">Nueva Solicitud</a>
+            <a href="/logout">Cerrar sesión</a>
+        </nav>
+    </div>
+
+    <div class="main">
+        <header class="content-header">
+            <h2>Crear Nueva Solicitud</h2>
+        </header>
+
+        <form action="/nuevoTicket" method="post" enctype="multipart/form-data" class="ticket-form">
+            <label for="tipo_solicitud">Tipo de Solicitud</label>
+            <select name="tipo_solicitud" required>
+                <option value="">Selecciona una opción</option>
+                <option value="Orden de compra">Orden de compra</option>
+                <option value="Cotización">Cotización</option>
+            </select>
+
+            <label for="nombre_solicitante">Nombre del Solicitante</label>
+            <input type="text" name="nombre_solicitante" required />
+
+            <label for="comprador_asignado">Comprador Asignado</label>
+            <input type="text" name="comprador_asignado" required />
+
+            <label for="proyecto">Proyecto</label>
+            <select name="proyecto" required>
+                <option value="">Selecciona un proyecto</option>
+                <option value="Proyecto A">Proyecto A</option>
+                <option value="Proyecto B">Proyecto B</option>
+                <option value="Proyecto C">Proyecto C</option>
+                <option value="Proyecto D">Proyecto D</option>
+                <option value="Proyecto E">Proyecto E</option>
+                <option value="Proyecto F">Proyecto F</option>
+                <option value="Proyecto G">Proyecto G</option>
+                <option value="Proyecto H">Proyecto H</option>
+                <option value="Proyecto I">Proyecto I</option>
+                <option value="Proyecto J">Proyecto J</option>
+            </select>
+
+            <label for="area">Área</label>
+            <select name="area" required>
+                <option value="">Selecciona un área</option>
+                <option value="Finanzas">Finanzas</option>
+                <option value="TI">TI</option>
+                <option value="Logística">Logística</option>
+                <option value="Recursos Humanos">Recursos Humanos</option>
+            </select>
+
+            <label for="division">División</label>
+            <select name="division" required>
+                <option value="">Selecciona una división</option>
+                <option value="Centro">Centro</option>
+                <option value="Norte">Norte</option>
+                <option value="Sur">Sur</option>
+                <option value="Este">Este</option>
+                <option value="Oeste">Oeste</option>
+            </select>
+
+            <label for="urgencia">Urgencia</label>
+            <select name="urgencia" required>
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+            </select>
+
+            <label for="comentario_inicial">Comentario Inicial</label>
+            <textarea name="comentario_inicial" rows="4"></textarea>
+
+            <label for="cotizaciones">Cotizaciones (PDF, JPG, PNG)</label>
+            <input type="file" name="cotizaciones" multiple accept=".pdf,.jpg,.jpeg,.png" />
+
+            <label for="ordenes_compra">Órdenes de Compra (PDF, JPG, PNG)</label>
+            <input type="file" name="ordenes_compra" multiple accept=".pdf,.jpg,.jpeg,.png" />
+
+            <label for="otros">Otros Documentos (PDF, JPG, PNG)</label>
+            <input type="file" name="otros" multiple accept=".pdf,.jpg,.jpeg,.png" />
+
+            <button type="submit" class="new-ticket">Crear Ticket</button>
+        </form>
+    </div>
+</body>
+</html>

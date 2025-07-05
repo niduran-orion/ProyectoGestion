@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  display: flex;
+  background-color: #1e142f;
+  color: white;
+}
+
+.sidebar {
+  width: 200px;
+  padding: 20px;
+  background-color: #1a1128;
+  height: 100vh;
+}
+
+.logo {
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #bfb3e0;
+  margin: 15px 0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar nav a:hover {
+  color: white;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+header .search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header input[type="text"] {
+  background-color: #382e4d;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: white;
+  width: 300px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  background-color: #c4c4c4;
+  border-radius: 50%;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0 20px;
+}
+
+.content-header h2 {
+  font-size: 24px;
+}
+
+.new-ticket {
+  background-color: #6f4ef2;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;  /* evita quiebre */
+  text-decoration: none;
+  font-size: 14px;
+  min-width: 80px;       /* ajusta si es muy angosto */
+}
+
+
+.ticket-search {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  background-color: #382e4d;
+  border: none;
+  border-radius: 8px;
+  color: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2b1f3a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #3d2f50;
+}
+
+th {
+  background-color: #2b1f3a;
+  color: #d3c1ee;
+  font-weight: 600;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status.open {
+  background-color: #50328c;
+  color: white;
+}
+
+.status.in-progress {
+  background-color: #7a5cd2;
+  color: white;
+}
+
+.status.closed {
+  background-color: #5c4c73;
+  color: white;
+}
+
+.urgency {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.urgency.high {
+  background-color: #a83279;
+  color: white;
+}
+
+.urgency.medium {
+  background-color: #c284f2;
+  color: white;
+}
+
+.urgency.low {
+  background-color: #8376a2;
+  color: white;
+}
+
+.ticket-form {
+  background-color: #2b1f3a;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+}
+
+.ticket-form label {
+  font-weight: 500;
+  color: #d3c1ee;
+}
+
+.ticket-form input,
+.ticket-form select {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #382e4d;
+  color: white;
+}
