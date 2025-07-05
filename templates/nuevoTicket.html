@@ -13,14 +13,23 @@
             <a href="/listaTickets">Bandeja Entrada</a>
             <a href="/completedTickets">Solicitudes Finalizadas</a>
             <a href="/nuevoTicket">Nueva Solicitud</a>
+            {% if session.get('user_role') == 'Admin' %}
+                <a href="/dashboard">Dashboard</a>
+                <a href="/gestion_usuarios">Gestionar Usuarios</a>
+                <a href="/registro">Crear Usuario</a>
+            {% endif %}
             <a href="/logout">Cerrar sesión</a>
         </nav>
     </div>
 
     <div class="main">
-        <header class="content-header">
-            <h2>Crear Nueva Solicitud</h2>
-        </header>
+        <div class="content-header">
+            <h2>✨ Crear Nueva Solicitud</h2>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span style="color: #667eea; font-weight: 600;">Usuario: {{ session.get('username', 'N/A') }}</span>
+                <span style="color: #764ba2; font-weight: 600;">Rol: {{ session.get('user_role', 'N/A') }}</span>
+            </div>
+        </div>
 
         <form action="/nuevoTicket" method="post" enctype="multipart/form-data" class="ticket-form">
             <label for="tipo_solicitud">Tipo de Solicitud</label>
@@ -86,8 +95,8 @@
             <label for="ordenes_compra">Órdenes de Compra (PDF, JPG, PNG)</label>
             <input type="file" name="ordenes_compra" multiple accept=".pdf,.jpg,.jpeg,.png" />
 
-            <label for="otros">Otros Documentos (PDF, JPG, PNG)</label>
-            <input type="file" name="otros" multiple accept=".pdf,.jpg,.jpeg,.png" />
+            <label for="otros_archivos">Otros Documentos (PDF, JPG, PNG)</label>
+            <input type="file" name="otros_archivos" multiple accept=".pdf,.jpg,.jpeg,.png" />
 
             <button type="submit" class="new-ticket">Crear Ticket</button>
         </form>

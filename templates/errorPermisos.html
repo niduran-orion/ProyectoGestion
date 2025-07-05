@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Denegado - Sistema de Gestión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Sistema de Gestión</div>
+        <nav>
+            <a href="{{ url_for('lista_tickets') }}">Lista de Tickets</a>
+            <a href="{{ url_for('nuevo_ticket') }}">Nuevo Ticket</a>
+            {% if session.user_role in ['Admin', 'Analista SC'] %}
+                <a href="{{ url_for('completed_tickets') }}">Tickets Completados</a>
+            {% endif %}
+            {% if session.user_role == 'Admin' %}
+                <a href="{{ url_for('gestionUsuario') }}">Gestión de Usuarios</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+        </nav>
+    </div>
+
+    <div class="main">
+        <div class="error-container">
+            <div class="error-content">
+                <h1>🚫 Acceso Denegado</h1>
+                <p class="error-message">
+                    No tienes permisos para acceder a esta funcionalidad.
+                </p>
+                <div class="error-details">
+                    <p><strong>Tu rol actual:</strong> {{ user_role }}</p>
+                    <p><strong>Roles requeridos:</strong> {{ required_roles | join(', ') }}</p>
+                </div>
+                <div class="error-actions">
+                    <a href="{{ url_for('lista_tickets') }}" class="btn-primary">Volver al Inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

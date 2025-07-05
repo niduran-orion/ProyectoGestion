@@ -13,13 +13,22 @@
       <a href="/listaTickets">Bandeja Entrada</a>
       <a href="/completedTickets">Solicitudes Finalizadas</a>
       <a href="/nuevoTicket">Nueva Solicitud</a>
+      {% if session.get('user_role') == 'Admin' %}
+        <a href="/dashboard">Dashboard</a>
+        <a href="/gestion_usuarios">Gestionar Usuarios</a>
+        <a href="/registro">Crear Usuario</a>
+      {% endif %}
       <a href="/logout">Cerrar sesión</a>
     </nav>
   </div>
 
   <div class="main">
     <div class="content-header">
-      <h2>Detalle del Ticket</h2>
+      <h2>🎫 Detalle del Ticket</h2>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <span style="color: #667eea; font-weight: 600;">{{ current_user.username if current_user else 'Usuario' }}</span>
+        <span style="color: #764ba2; font-weight: 600;">{{ current_user.rol if current_user else 'Rol' }}</span>
+      </div>
     </div>
 
     <div class="ticket-form" style="max-width: 600px;">
@@ -65,9 +74,16 @@
     {% endfor %}
 
 
-    <form method="POST" action="/completarTicket/{{ ticket['id'] }}" style="margin-top: 30px;">
+    {% if session.get('user_role') in ['Admin', 'Analista SC'] and not ticket.get('completado', False) %}
+    <form method="POST" action="/marcar_completado/{{ ticket['id'] }}" style="margin-top: 30px;">
       <button type="submit" class="new-ticket">Marcar como Completado</button>
     </form>
+    {% elif ticket.get('completado', False) %}
+    <div style="margin-top: 30px; padding: 15px; background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px;">
+      <h3 style="color: #22c55e; margin-bottom: 5px;">✅ Ticket Completado</h3>
+      <p style="color: rgba(255, 255, 255, 0.8); margin: 0;">Este ticket ha sido marcado como completado.</p>
+    </div>
+    {% endif %}
   </div>
 </body>
 </html>

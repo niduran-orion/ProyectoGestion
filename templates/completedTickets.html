@@ -13,13 +13,22 @@
       <a href="/listaTickets">Bandeja Entrada</a>
       <a href="/completedTickets">Solicitudes Cerradas</a>
       <a href="/nuevoTicket">Nueva Solicitud</a>
+      {% if session.get('user_role') == 'Admin' %}
+        <a href="/dashboard">Dashboard</a>
+        <a href="/gestion_usuarios">Gestionar Usuarios</a>
+        <a href="/registro">Crear Usuario</a>
+      {% endif %}
       <a href="/logout">Cerrar sesión</a>
     </nav>
   </div>
 
   <div class="main">
     <div class="content-header">
-      <h2>Solicitudes Cerradas</h2>
+      <h2>✅ Solicitudes Finalizadas</h2>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <span style="color: #667eea; font-weight: 600;">Administrador</span>
+        <span style="color: #764ba2; font-weight: 600;">Vista Completa</span>
+      </div>
     </div>
 
     <div class="filters" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">

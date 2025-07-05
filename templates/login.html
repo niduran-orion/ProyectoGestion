@@ -1,56 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login | Gestión de Solicitudes</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    body {
-      background: #1a1a2e;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: sans-serif;
-    }
-    .login-container {
-      background: #2a2a3e;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 300px;
-    }
-    input, button {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.75rem;
-      border-radius: 5px;
-      border: none;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #5c6bc0;
-      color: white;
-      cursor: pointer;
-    }
-    .error {
-      color: #ff6b6b;
-      margin-top: 1rem;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Gestión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form method="POST">
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-      {% if error %}
-        <div class="error">{{ error }}</div>
-      {% endif %}
-    </form>
-  </div>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-form">
+            <h1>Sistema de Gestión</h1>
+            <h2>Iniciar Sesión</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

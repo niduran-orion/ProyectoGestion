@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Sistema de Gestión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Gestión de Solicitudes</div>
+        <nav>
+            <a href="/listaTickets">Bandeja Entrada</a>
+            <a href="/completedTickets">Solicitudes Finalizadas</a>
+            <a href="/nuevoTicket">Nueva Solicitud</a>
+            {% if session.get('user_role') == 'Admin' %}
+                <a href="/dashboard">Dashboard</a>
+                <a href="/gestion_usuarios" class="active">Gestionar Usuarios</a>
+                <a href="/registro">Crear Usuario</a>
+            {% endif %}
+            <a href="/logout">Cerrar sesión</a>
+        </nav>
+    </div>
+
+    <div class="main">
+        <div class="content-header">
+            <h2>👥 Gestión de Usuarios</h2>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span style="color: #667eea; font-weight: 600;">{{ session.get('username', 'N/A') }}</span>
+                <span style="color: #764ba2; font-weight: 600;">{{ session.get('user_role', 'N/A') }}</span>
+            </div>
+        </div>
+
+        <div class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="content-header">
+                <h2>Usuarios del Sistema</h2>
+                <a href="{{ url_for('registro') }}" class="new-ticket">Nuevo Usuario</a>
+            </div>
+
+            <div class="users-table-container">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Rol Actual</th>
+                            <th>Fecha Creación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.username }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>
+                                <span class="role-badge role-{{ usuario.rol.lower().replace(' ', '-') }}">
+                                    {{ usuario.rol }}
+                                </span>
+                            </td>
+                            <td>{{ usuario.fecha_creacion[:10] }}</td>
+                            <td>
+                                <span class="status {{ 'active' if usuario.activo else 'inactive' }}">
+                                    {{ 'Activo' if usuario.activo else 'Inactivo' }}
+                                </span>
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ url_for('actualizar_rol') }}" class="role-form">
+                                    <input type="hidden" name="user_id" value="{{ usuario.id }}">
+                                    <select name="nuevo_rol" class="role-select">
+                                        {% for rol in roles %}
+                                            <option value="{{ rol }}" {{ 'selected' if rol == usuario.rol else '' }}>
+                                                {{ rol }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn-update">Actualizar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

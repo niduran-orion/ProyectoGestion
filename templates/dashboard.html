@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Gestión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Gestión de Solicitudes</div>
+        <nav>
+            <a href="/listaTickets">Bandeja Entrada</a>
+            <a href="/completedTickets">Solicitudes Finalizadas</a>
+            <a href="/nuevoTicket">Nueva Solicitud</a>
+            {% if session.get('user_role') == 'Admin' %}
+                <a href="/dashboard" class="active">Dashboard</a>
+                <a href="/gestion_usuarios">Gestionar Usuarios</a>
+                <a href="/registro">Crear Usuario</a>
+            {% endif %}
+            <a href="/logout">Cerrar sesión</a>
+        </nav>
+    </div>
+
+    <div class="main">
+        <div class="content-header">
+            <h2>📊 Dashboard Administrativo</h2>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span style="color: #667eea; font-weight: 600;">Usuario: {{ session.get('username', 'N/A') }}</span>
+                <span style="color: #764ba2; font-weight: 600;">Rol: {{ session.get('user_role', 'N/A') }}</span>
+            </div>
+        </div>
+
+        <!-- Tarjetas de estadísticas -->
+        <div class="dashboard-cards">
+            <div class="stat-card">
+                <div class="stat-icon">🎫</div>
+                <div class="stat-content">
+                    <h3 style="color: #667eea; font-size: 36px; font-weight: 800;">{{ stats.total_tickets }}</h3>
+                    <p style="color: #667eea; font-size: 16px; font-weight: 600;">Total de Tickets</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-content">
+                    <h3 style="color: #667eea; font-size: 36px; font-weight: 800;">{{ stats.tickets_abiertos }}</h3>
+                    <p style="color: #667eea; font-size: 16px; font-weight: 600;">Tickets Abiertos</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <h3 style="color: #667eea; font-size: 36px; font-weight: 800;">{{ stats.tickets_completados }}</h3>
+                    <p style="color: #667eea; font-size: 16px; font-weight: 600;">Tickets Completados</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-content">
+                    <h3 style="color: #667eea; font-size: 36px; font-weight: 800;">{{ "%.1f"|format((stats.tickets_completados / stats.total_tickets * 100) if stats.total_tickets > 0 else 0) }}%</h3>
+                    <p style="color: #667eea; font-size: 16px; font-weight: 600;">Tasa de Finalización</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="dashboard-charts">
+            <div class="chart-container">
+                <h3 style="color: #667eea; font-size: 22px; font-weight: 700;">📊 Análisis de Tickets</h3>
+                <img src="data:image/png;base64,{{ grafico }}" alt="Gráficos de Tickets" style="width: 100%; max-width: 800px; height: auto;">
+            </div>
+        </div>
+
+        <!-- Tablas de resumen -->
+        <div class="dashboard-tables">
+            <div class="summary-table">
+                <h3 style="color: #667eea; font-size: 20px; font-weight: 700;">📍 Tickets por Área</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="color: #667eea; font-weight: 700;">Área</th>
+                            <th style="color: #667eea; font-weight: 700;">Cantidad</th>
+                            <th style="color: #667eea; font-weight: 700;">Porcentaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for area, cantidad in stats.areas_count.items() %}
+                        <tr>
+                            <td style="color: #667eea; font-weight: 600;">{{ area }}</td>
+                            <td style="color: #667eea; font-weight: 600;">{{ cantidad }}</td>
+                            <td style="color: #667eea; font-weight: 600;">{{ "%.1f"|format((cantidad / stats.total_tickets * 100) if stats.total_tickets > 0 else 0) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="summary-table">
+                <h3 style="color: #667eea; font-size: 20px; font-weight: 700;">🚨 Tickets por Urgencia</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="color: #667eea; font-weight: 700;">Urgencia</th>
+                            <th style="color: #667eea; font-weight: 700;">Cantidad</th>
+                            <th style="color: #667eea; font-weight: 700;">Porcentaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for urgencia, cantidad in stats.urgencias_count.items() %}
+                        <tr>
+                            <td>
+                                <span class="urgency {{ urgencia.lower() }}" style="font-weight: 700;">{{ urgencia.title() }}</span>
+                            </td>
+                            <td style="color: #667eea; font-weight: 600;">{{ cantidad }}</td>
+                            <td style="color: #667eea; font-weight: 600;">{{ "%.1f"|format((cantidad / stats.total_tickets * 100) if stats.total_tickets > 0 else 0) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

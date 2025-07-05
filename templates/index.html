@@ -11,10 +11,14 @@
   <div class="sidebar">
     <h1 class="logo">Gestión de Solicitudes</h1>
     <nav>
-      <a href="#">Dashboard</a>
-      <a href="#">Tickets</a>
-      <a href="#">Reports</a>
-      <a href="#">Settings</a>
+      <a href="{{ url_for('lista_tickets') }}">Bandeja Entrada</a>
+      <a href="{{ url_for('completed_tickets') }}">Solicitudes Finalizadas</a>
+      <a href="{{ url_for('nuevo_ticket') }}">Nueva Solicitud</a>
+      {% if session.get('user_role') == 'Admin' %}
+        <a href="{{ url_for('gestion_usuarios') }}">Gestionar Usuarios</a>
+        <a href="{{ url_for('registro') }}">Crear Usuario</a>
+      {% endif %}
+      <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
     </nav>
   </div>
 
